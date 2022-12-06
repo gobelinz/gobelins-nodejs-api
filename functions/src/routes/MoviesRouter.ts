@@ -95,6 +95,24 @@ export function moviesRouter(store: FirebaseFirestore.Firestore): Router {
 		}
 	})
 
+	router.patch("/:movieId/dislike", async (req: Request, res: Response) => {
+		const movieId = req.params.movieId;
+		try {
+			const movie = await store.collection(colName).doc(movieId).get()
+			if (!movie.exists) {
+				res.status(HttpStatuses.NotFound);
+			} else {
+				const updatedMovie = { ...movie.data() }
+				updatedMovie.dislikes += 1;
+				await store.collection(colName).doc(movieId).update(updatedMovie);
+				res.status(HttpStatuses.OK).json({ id: movieId, ...updatedMovie })
+			}
+
+		} catch (error) {
+			res.status(HttpStatuses.InternalServerError).send(error);
+		}
+	})
+
 	router.delete("/:movieId", async (req: Request, res: Response) => {
 		try {
 			await store.collection(colName).doc(req.params.movieId).delete()
