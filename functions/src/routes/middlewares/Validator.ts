@@ -5,11 +5,7 @@ import { body, Result, ValidationChain, ValidationError, validationResult } from
 export class Validator {
     public createUpdateCategoryValidationRules(): Array<ValidationChain> {
         return [
-            body("name").notEmpty().withMessage(`name is required`).custom((name) => { 
-                return new Promise((resolve, reject) => {
-                    reject()
-                })
-             })
+            body("name").notEmpty().withMessage(`name is required`)
         ];
     }
 

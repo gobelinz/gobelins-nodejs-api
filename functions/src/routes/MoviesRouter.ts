@@ -47,7 +47,8 @@ export function moviesRouter(store: FirebaseFirestore.Firestore): Router {
 			video: req.body.video,
 			category: req.body.category,
 			description: req.body.description,
-			likes: 0
+			likes: Math.floor(Math.random() * 100),
+			dislikes: Math.floor(Math.random() * 100)
 		}
 
 		try {
